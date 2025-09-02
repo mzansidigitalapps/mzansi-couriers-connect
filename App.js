@@ -27,4 +27,3 @@ const styles = StyleSheet.create({
     color: "gray",
   },
 });
-npx expo start
