@@ -21,4 +21,4 @@
   },
   "private": true
 }
-ls
+ls npx expo start
