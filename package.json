@@ -21,4 +21,3 @@
   },
   "private": true
 }
-npx expo start --tunnel
