@@ -1,51 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
-import { auth, db } from "../App";
-import { doc, getDoc } from "firebase/firestore";
+import React from "react";
+import { View, Text, Button, StyleSheet } from "react-native";
 import { signOut } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 
-export default function HomeScreen({ navigation }) {
-  const [userData, setUserData] = useState(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const docRef = doc(db, "users", auth.currentUser.uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setUserData(docSnap.data());
-      }
-    };
-    fetchUser();
-  }, []);
-
+export default function HomeScreen() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigation.replace("Login"); // Go back to login screen
     } catch (error) {
-      alert("Logout failed: " + error.message);
+      console.error("Logout error:", error.message);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome!</Text>
-      {userData ? (
-        <>
-          <Text>Email: {userData.email}</Text>
-          <Text>
-            Joined: {userData.createdAt?.toDate().toString() || "Unknown"}
-          </Text>
-        </>
-      ) : (
-        <Text>Loading user data...</Text>
-      )}
-      <Button title="Logout" onPress={handleLogout} color="red" />
+      <Text style={styles.text}>Welcome to Mzansi Digital Apps 🎉</Text>
+      <Button title="Logout" onPress={handleLogout} color="#FF3B30" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
-  title: { fontSize: 24, marginBottom: 20 },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  text: {
+    fontSize: 20,
+    marginBottom: 20,
+    color: "#333",
+  },
 });
