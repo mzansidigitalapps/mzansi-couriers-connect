@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { onAuthStateChanged } from "firebase/auth";
 
-import { auth } from "./firebaseConfig"; // Make sure this path is correct
+import { auth } from "./firebaseConfig";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import HomeScreen from "./screens/HomeScreen";
@@ -20,11 +21,16 @@ export default function App() {
       setLoading(false);
     });
 
-    return unsubscribe; // cleanup listener
+    return unsubscribe;
   }, []);
 
   if (loading) {
-    return null; // you could also show a loading spinner here
+    return (
+      <View style={styles.splash}>
+        <Text style={styles.title}>Mzansi Digital Apps</Text>
+        <ActivityIndicator size="large" color="#007AFF" />
+      </View>
+    );
   }
 
   return (
@@ -42,3 +48,18 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  splash: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: "#007AFF",
+  },
+});
